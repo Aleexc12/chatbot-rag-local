@@ -1,7 +1,5 @@
 MINIMAL FLASK CHATBOT
 
-![Image](https://github.com/user-attachments/assets/48bc04f7-6a69-428a-a67f-bc91f2e4cbc4)
-
 This is a simple chatbot built using Flask and Hugging Face Transformers, designed for a minimal and clean user experience. The chatbot responds to user messages and can be easily deployed locally.
 
 FEATURES
