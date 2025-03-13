@@ -14,7 +14,7 @@ INSTALLATION
 
 1. CLONE THE REPOSITORY
    ```
-   git clone https://github.com/yourusername/minimal-flask-chatbot.git
+   git clone https://github.com/aleexc12/minimal-flask-chatbot.git
    cd minimal-flask-chatbot
    ```
 
