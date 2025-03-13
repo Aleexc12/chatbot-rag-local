@@ -1,5 +1,7 @@
 MINIMAL FLASK CHATBOT
 
+![Chatbot UI](imgs/image.png)
+
 This is a simple chatbot built using Flask and Hugging Face Transformers, designed for a minimal and clean user experience. The chatbot responds to user messages and can be easily deployed locally.
 
 FEATURES
@@ -45,6 +47,8 @@ PROJECT STRUCTURE
 
 ```
 /minimal-flask-chatbot
+│── imgs/
+│   └── image.png         # Screenshot of the chatbot UI
 │── templates/
 │   └── index.html        # Frontend (HTML UI)
 │── server.py             # Main Flask backend
