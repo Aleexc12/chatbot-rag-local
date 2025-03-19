@@ -27,7 +27,30 @@ def home():
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    pass
+    data = request.get_json()
+    message = data.get("message", "")
+
+    # Append the user's message
+    conversation.append({"role": "user", "content": message})
+
+    # Use Qwen's chat template for conversation
+    prompt_text = tokenizer.apply_chat_template(
+        conversation,
+        tokenize=False,
+        add_generation_prompt=True
+    )
+    inputs = tokenizer([prompt_text], return_tensors="pt").to(model.device)
+
+    with torch.no_grad():
+        output_ids = model.generate(**inputs, max_new_tokens=1000)
+    # Extract newly generated tokens (skip the input length)
+    new_tokens = output_ids[0][len(inputs.input_ids[0]):]
+    response_text = tokenizer.decode(new_tokens, skip_special_tokens=True)
+
+    # Append the assistant's response
+    conversation.append({"role": "assistant", "content": response_text})
+
+    return jsonify({"response": response_text})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=False)
