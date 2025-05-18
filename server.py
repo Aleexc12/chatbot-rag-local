@@ -383,7 +383,7 @@ def serve_image(filename): return send_from_directory('imgs', filename)
 def home():
     session_id = str(uuid.uuid4())
     print(f"Home page. Initial session_id for new interaction: {session_id}.")
-    return render_template("index2.html",
+    return render_template("index.html",
                            current_session_id=session_id,
                            available_llms=AVAILABLE_LLMS,
                            default_llm_key=DEFAULT_LLM_KEY)
