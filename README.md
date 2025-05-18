@@ -24,7 +24,7 @@ Este proyecto implementa un chatbot local con RAG (*Retrieval Augmented Generati
 ### 1. Clone this repository
 
 ```bash
-git clone 'repo-url-here'
+git clone https://github.com/Aleexc12/chatbot-rag-local.git
 cd chatbot-rag-local
 ```
 
