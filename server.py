@@ -40,37 +40,38 @@ EMBEDDING_MODEL_NAME_OLLAMA = 'nomic-embed-text'
 OLLAMA_EMBEDDING_DIMENSION_DEFAULT = 768
 
 AVAILABLE_LLMS = {
-    "llama3.2:1b": {
-        "model_name": "llama3.2:1b",
-        "max_tokens": 4096,
-        "display_name": "Llama3.2 (1B)"
-    },
+    # "llama3.2:1b": {
+    #     "model_name": "llama3.2:1b",
+    #     "max_tokens": 2048,
+    #     "display_name": "Llama3.2 (1B)"
+    # },
     "phi4-mini": {
         "model_name": "phi4-mini",
         "max_tokens": 4096,
         "display_name": "Phi4 Mini (3.8B)"
     },
-    "phi4-mini-reasoning": {
-        "model_name": "phi4-mini-reasoning",
-        "max_tokens": 8192,
-        "display_name": "Phi4 Mini-Reasoning"
-    },
-    "phi4": {
-        "model_name": "phi4",
-        "max_tokens": 16384,
-        "display_name": "Phi4 (14B)"
-    },
-    "qwen3:8b": {
-        "model_name": "qwen3:8b",
-        "max_tokens": 8192,
-        "display_name": "Qwen3 (8B)"
-    },
-    "gemma3:12b": {
-        "model_name": "gemma3:12b",
-        "max_tokens": 8192,
-        "display_name": "Gemma3 (12B)"
-    },
+    # "phi4-mini-reasoning": {
+    #     "model_name": "phi4-mini-reasoning",
+    #     "max_tokens": 8192,
+    #     "display_name": "Phi4 Mini-Reasoning"
+    # },
+    # "phi4-reasoning": {
+    #     "model_name": "phi4-reasoning",
+    #     "max_tokens": 16384,
+    #     "display_name": "Phi4 Reasoning"
+    # },
+    # "qwen3:8b": {
+    #     "model_name": "qwen3:8b",
+    #     "max_tokens": 8192,
+    #     "display_name": "Qwen3 (8B)"
+    # },
+    # "qwen3:14b": {
+    #     "model_name": "qwen3:14b",
+    #     "max_tokens": 16384,
+    #     "display_name": "Qwen3 (14B)"
+    # },
 }
+
 DEFAULT_LLM_KEY = "phi4-mini"
 ROUTER_LLM_KEY = "phi4-mini"
 

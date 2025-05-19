@@ -85,6 +85,18 @@ You can change the models used in the `AVAILABLE_LLMS` dictionary in `server.py`
 
 ---
 
+## ⚡️ Model Download & Selection
+
+By default, only the `phi4-mini` model will be downloaded and used. This is to avoid unnecessary downloads for users who do not need larger models.
+
+- When you start the server for the first time, it will automatically download `phi4-mini` (if not present) and the embedding model `nomic-embed-text`.
+- If you want to use more LLMs, simply uncomment or add them in the `AVAILABLE_LLMS` dictionary in `server.py`. The code will automatically pull any model you add the first time it is needed.
+- Some models (like Qwen or Llama3) require more RAM/VRAM. The default (`phi4-mini`) works on almost any modern PC, even without a dedicated GPU.
+
+**Note:** The requirements to run `phi4-mini` are very low. For larger models, make sure your hardware is sufficient.
+
+---
+
 ## ▶️ Start the Flask server
 
 ```powershell
