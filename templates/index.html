@@ -26,14 +26,7 @@
       display: flex; flex-direction: column;
       box-shadow: 2px 0 8px rgba(0,0,0,0.05);
       transition: all .3s ease;
-    }
-    .sidebar-header {
-      padding-bottom: 10px;
-      margin-bottom: 15px;
-      border-bottom: 1px solid #d1dce6;
-      text-align: center;
-      font-weight: 500;
-      color: #4a5568;
+      padding-top: 50px; /* Espacio para los botones de arriba */
     }
     #drop-zone {
       border: 2px dashed #c0d0e0;
@@ -45,6 +38,8 @@
       box-shadow: inset 0 0 5px rgba(0,0,0,0.03);
       cursor: pointer;
       transition: all .3s ease;
+      margin-bottom: 3px;
+      margin-top: 20px;
     }
     #drop-zone.drag-over {
       border-color: #007bff;
@@ -58,6 +53,7 @@
       overflow-y: auto;
       font-size: .8em;
       color: #446;
+      margin-bottom: 15px; /* Espacio antes de la lista de chats */
     }
     #file-list li {
       display: flex; justify-content: space-between;
@@ -67,13 +63,42 @@
       border-radius: 6px;
       box-shadow: 1px 1px 4px rgba(0,0,0,0.08);
     }
-    .chat-list-placeholder {
-      flex: 1;
-      text-align: center;
-      color: #8899aa;
-      padding-top: 30px;
-      font-size: .9em;
+    
+    /* Chat Sessions List (Historial) */
+    #chat-sessions-list {
+      flex: 1; /* Ocupa el espacio restante */
+      overflow-y: auto;
+      border-top: 1px solid #d1dce6; /* Separador */
+      margin-top: 10px;
+      padding-top: 10px;
     }
+    .chat-session-item {
+      padding: 10px 12px;
+      cursor: pointer;
+      border-radius: 6px;
+      margin-bottom: 5px;
+      font-size: 0.9em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: background-color 0.2s ease;
+      color: #4a5568;
+    }
+    .chat-session-item:hover {
+      background-color: #dde8f3;
+    }
+    .chat-session-item.active {
+      background-color: #0d6efd;
+      color: white;
+      font-weight: 500;
+    }
+    .chat-sessions-list-empty { /* Placeholder si no hay chats */
+        text-align: center;
+        color: #8899aa;
+        padding-top: 30px;
+        font-size: .9em;
+    }
+
 
     /* Collapse sidebar */
     .app-container.sidebar-collapsed .sidebar {
@@ -103,13 +128,17 @@
     }
     .top-bar img.logo { max-height: 60px; }
 
-    /* Toggle sidebar button */
-    #toggle-sidebar-btn {
+    /* Top Left Action Buttons (Toggle Sidebar & New Chat) */
+    .top-left-actions {
       position: fixed;
-      top: 10px;    /* elevado un poco más */
+      top: 10px;
       left: 16px;
       z-index: 1050;
-      width: 36px; height: 36px;
+      display: flex;
+      gap: 8px; /* Espacio entre botones */
+    }
+    #toggle-sidebar-btn, #new-chat-btn {
+      width: 38px; height: 38px; /* Ligeramente más grandes */
       background: #fff;
       border: 1px solid #d1dce6;
       border-radius: 50%;
@@ -117,20 +146,27 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       cursor: pointer;
       transition: background .2s, transform .2s;
+      padding:0; /* Reset padding si lo hereda */
+      color: #557; /* Color del icono */
     }
-    #toggle-sidebar-btn:hover { background: #f0f4f9; transform: scale(1.05); }
-    #toggle-sidebar-btn svg { width: 18px; height: 18px; fill: #557; }
+    #toggle-sidebar-btn:hover, #new-chat-btn:hover { background: #f0f4f9; transform: scale(1.05); }
+    #toggle-sidebar-btn svg, #new-chat-btn svg { width: 20px; height: 20px; fill: currentColor; }
+    
     #toggle-sidebar-btn .icon-expand { display: none; }
     .app-container.sidebar-collapsed #toggle-sidebar-btn .icon-expand { display: block; }
     .app-container.sidebar-collapsed #toggle-sidebar-btn .icon-collapse { display: none; }
-
-    /* Custom model dropdown */
+    /* Ajustar la posición del dropdown de modelo si el botón de nuevo chat está cerca */
+    .app-container.sidebar-collapsed .model-dropdown { left: 120px; /* Mantener si sidebar colapsado */ }
     .model-dropdown {
       position: absolute;
       top: 18px;
-      left: 65px;
+      /* left: 65px;  Lo movemos un poco más a la derecha para no superponer con el nuevo botón */
+      left: 60px; /* Ajustar este valor según sea necesario */
       z-index: 20;
     }
+
+
+    /* Custom model dropdown */
     .model-btn {
       background: transparent;
       border: none;
@@ -222,7 +258,7 @@
       background: #fff;
       border: 1px solid #d1dce6;
       border-radius: 12px;
-      padding: 8px 15px 8px 8px; /* Ajustado para que el botón quepa bien */
+      padding: 8px 15px 8px 8px;
       box-shadow: 0 3px 8px rgba(0,0,0,0.08);
     }
     #user-input {
@@ -233,15 +269,15 @@
       font-size: 1em;
       background: transparent;
       resize: none;
-      max-height: 100px; /* O la altura que prefieras */
+      max-height: 100px; 
       overflow-y: auto;
     }
     #send-button {
-      width: 42px; height: 42px; /* Tamaño fijo */
+      width: 42px; height: 42px; 
       margin-left: 10px;
       background: #0d6efd;
       border: none;
-      border-radius: 8px; /* Más redondeado */
+      border-radius: 8px; 
       display:flex; align-items:center; justify-content:center;
       cursor: pointer;
       transition: background .2s, transform .2s;
@@ -252,7 +288,7 @@
     #send-button svg { width:20px; height:20px; fill:#fff; }
 
     #error-status {
-      position: absolute; bottom: 95px; left: 50%; /* Ajusta según el alto del input area */
+      position: absolute; bottom: 95px; left: 50%;
       transform: translateX(-50%);
       background: #f8d7da; color: #721c24;
       padding: 8px 15px; border-radius: 6px;
@@ -271,7 +307,7 @@
   <div class="app-container" id="app-container">
     <!-- Sidebar -->
     <aside class="sidebar">
-      <div class="sidebar-header">New Chat</div>
+      <!-- Ya no hay sidebar-header -->
       <div id="drop-zone">Drag & drop Document(s)<br>(PDF, DOCX, TXT, MD) or click</div>
       <ul id="file-list"></ul>
       <input
@@ -281,20 +317,31 @@
         multiple
         style="display:none;"
       />
-      <div class="chat-list-placeholder">Chat history (future)</div>
+      <!-- Contenedor para la lista de sesiones de chat -->
+      <div id="chat-sessions-list">
+        <!-- Los items de sesión se añadirán aquí por JS -->
+        <!-- <div class="chat-sessions-list-empty">No chat history yet.</div> -->
+      </div>
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
-      <!-- Botón para colapsar/expandir sidebar -->
-      <button id="toggle-sidebar-btn" title="Toggle Sidebar">
-        <svg class="icon-collapse" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z"/>
-        </svg>
-        <svg class="icon-expand" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"/>
-        </svg>
-      </button>
+      <!-- Botones de acción en la esquina superior izquierda -->
+      <div class="top-left-actions">
+        <button id="toggle-sidebar-btn" title="Toggle Sidebar">
+          <svg class="icon-collapse" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z"/>
+          </svg>
+          <svg class="icon-expand" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"/>
+          </svg>
+        </button>
+        <button id="new-chat-btn" title="Start New Chat">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <!-- Icono de "+" -->
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+          </svg>
+        </button>
+      </div>
 
       <!-- Barra superior con logo -->
       <header class="top-bar">
@@ -304,17 +351,14 @@
       <!-- Dropdown para seleccionar modelo -->
       <div class="model-dropdown">
         <div id="model-btn" class="model-btn">
-          Phi4 Mini <i class="arrow"></i> <!-- El texto se actualiza con JS -->
+          Phi4 Mini <i class="arrow"></i>
         </div>
         <div id="model-menu" class="model-menu">
           <div class="model-item disabled">Choose LLM…</div>
-          <div class="model-item selected" data-value="phi4-mini">Phi4 Mini</div>
-          <div class="model-item selected" data-value="phi4-mini-reasoning">Phi4 Mini Reasoning</div>
-          <div class="model-item selected" data-value="phi4">Phi4 (13B)</div>
-          <div class="model-item" data-value="gemma3:4b">Gemma3 (4B)</div>
-          <div class="model-item selected" data-value="gemma3:12b">Gemma3 (12B)</div>
-          <div class="model-item" data-value="qwen3:8b">Qwen3 (8B)</div>
-          <!-- Añade más modelos aquí si es necesario -->
+          <!-- Opciones de modelo (deberían coincidir con AVAILABLE_LLMS del backend) -->
+          {% for key, llm in available_llms.items() %}
+          <div class="model-item" data-value="{{ key }}">{{ llm.display_name }}</div>
+          {% endfor %}
         </div>
       </div>
 
@@ -351,6 +395,7 @@
     // Refs a elementos del DOM
     const appContainer    = document.getElementById('app-container');
     const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+    const newChatBtn      = document.getElementById('new-chat-btn'); // Nuevo botón
     const modelBtn        = document.getElementById('model-btn');
     const modelMenu       = document.getElementById('model-menu');
     const dropZone        = document.getElementById('drop-zone');
@@ -360,10 +405,19 @@
     const userInput       = document.getElementById('user-input');
     const sendButton      = document.getElementById('send-button');
     const chatBox         = document.getElementById('chat-box');
+    const chatSessionsList = document.getElementById('chat-sessions-list'); // Para el historial
 
     // Estado de la aplicación
-    let selectedModel = 'phi4-mini'; // Modelo por defecto, debe coincidir con un data-value
-    const currentSessionId = "{{ current_session_id }}"; // Inyectado por Flask
+    // Usar el default_llm_key que Flask pasa al template
+    let selectedModel = "{{ default_llm_key }}"; 
+    let currentSessionId = "{{ current_session_id }}"; // Inyectado por Flask para la sesión inicial
+
+    // --- UUID v4 Generator (simple) ---
+    function generateUUID() { 
+      return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+      );
+    }
 
     // --- Helper Functions ---
     function scrollToBottom() {
@@ -373,14 +427,14 @@
 
     function escapeHtml(unsafe) {
         return unsafe
-             .replace(/&/g, "&")
-             .replace(/</g, "<")
-             .replace(/>/g, ">")
+             .replace(/&/g, "&") // Corregido: & a &
+             .replace(/</g, "<")  // Corregido: < a <
+             .replace(/>/g, ">")  // Corregido: > a >
              .replace(/"/g, "&quot;")
-             .replace(/'/g, "&#39;");
+             .replace(/'/g, "&#39;"); // Corregido: ' a '
     }
 
-    function createMessageBubble(text, sender = 'bot', thinking = false) {
+    function createMessageBubble(text, sender = 'bot', thinking = false, timestamp = null, sources = null) {
       const outerContainer = document.createElement('div');
       outerContainer.className = `message-container ${sender === 'user' ? 'message-user-container' : 'message-bot-container'}`;
       
@@ -391,16 +445,19 @@
         messageBubble.classList.add('thinking');
         messageBubble.innerHTML = `<i>${escapeHtml(text)}</i>`;
       } else {
-        // El formateo de Markdown (como newlines) se manejará al actualizar el contenido
         messageBubble.innerHTML = escapeHtml(text).replace(/\n/g, '<br>');
       }
       
       outerContainer.appendChild(messageBubble);
       chatBox.appendChild(outerContainer);
-      scrollToBottom();
-      return messageBubble; // Devuelve la burbuja interna para poder actualizarla
-    }
 
+      if (timestamp) addTimestamp(messageBubble, timestamp);
+      if (sources && sources.length > 0) addSources(messageBubble, sources);
+      
+      scrollToBottom();
+      return messageBubble; 
+    }
+    
     function addTimestamp(bubbleElement, timestampText) {
       if (!bubbleElement || !timestampText) return;
       let tsElement = bubbleElement.querySelector('.message-timestamp-inline');
@@ -431,7 +488,7 @@
       if (items.length > 2) textContent += `, +${items.length - 2} more`;
       
       sourcesDiv.textContent = `Sources: ${textContent}`;
-      sourcesDiv.title = sourcesArray.map(s => `${escapeHtml(s.filename)}(ID:${escapeHtml(s.id || 'N/A')})`).join(', ');
+      sourcesDiv.title = sourcesArray.map(s => `${escapeHtml(s.filename || 'N/A')}(ID:${escapeHtml(s.id || 'N/A')})`).join(', ');
     }
 
     let errorTimeout;
@@ -446,16 +503,15 @@
       userInput.disabled = !isEnabled;
       sendButton.disabled = !isEnabled;
       userInput.placeholder = isEnabled ? 'Type your message…' : 'Processing…';
-      userInput.style.backgroundColor = isEnabled ? '' : '#f8f9fa'; // Grisáceo cuando está deshabilitado
+      userInput.style.backgroundColor = isEnabled ? '' : '#f8f9fa'; 
     }
 
-    userInput.addEventListener('input', () => { // Auto-resize textarea
+    userInput.addEventListener('input', () => { 
       userInput.style.height = 'auto';
       userInput.style.height = userInput.scrollHeight + 'px';
     });
 
-    // --- Event Listeners (Drag & Drop, Sidebar, Model Dropdown, Ctrl+Enter) ---
-    // (Tu código existente para estos es bueno, lo mantendré)
+    // --- Event Listeners ---
     function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
     function highlight() { dropZone.classList.add('drag-over'); }
     function unhighlight() { dropZone.classList.remove('drag-over'); }
@@ -464,7 +520,7 @@
     dropZone.addEventListener('click', () => fileInput.click());
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(ev => {
       dropZone.addEventListener(ev, preventDefaults);
-      document.body.addEventListener(ev, preventDefaults); // Prevenir que el navegador abra el archivo
+      document.body.addEventListener(ev, preventDefaults);
     });
     ['dragenter', 'dragover'].forEach(ev => dropZone.addEventListener(ev, highlight));
     ['dragleave', 'drop'].forEach(ev => dropZone.addEventListener(ev, unhighlight));
@@ -473,6 +529,21 @@
 
     toggleSidebarBtn.addEventListener('click', () => {
       appContainer.classList.toggle('sidebar-collapsed');
+    });
+
+    // --- NEW CHAT BUTTON ---
+    newChatBtn.addEventListener('click', () => {
+      console.log("New Chat button clicked");
+      currentSessionId = generateUUID(); // Genera un nuevo ID para la nueva sesión
+      chatBox.innerHTML = ''; // Limpia el área de chat
+      userInput.value = ''; // Limpia el input
+      userInput.style.height = 'auto';
+      userInput.focus();
+      // Opcional: limpiar la lista de archivos si los archivos son por sesión
+      // fileList.innerHTML = '';
+      updateActiveSessionInList(currentSessionId); // Quita el 'active' de cualquier chat anterior
+      console.log("Started new chat with session ID:", currentSessionId);
+      // No se añade a la lista de sesiones hasta que se envíe el primer mensaje
     });
 
     modelBtn.addEventListener('click', () => {
@@ -487,14 +558,14 @@
           item.classList.add('selected');
           
           selectedModel = item.dataset.value;
-          modelBtn.innerHTML = `${escapeHtml(item.textContent)} <i class="arrow"></i>`; // Actualizar texto del botón
+          modelBtn.innerHTML = `${escapeHtml(item.textContent)} <i class="arrow"></i>`;
           modelMenu.classList.remove('show');
           modelBtn.classList.remove('open');
-          handleModelChange(selectedModel); // Notificar al backend sobre el cambio
+          handleModelChange(selectedModel);
         });
       }
     });
-    document.addEventListener('click', e => { // Cerrar dropdown si se hace clic fuera
+    document.addEventListener('click', e => { 
       if (!modelBtn.contains(e.target) && !modelMenu.contains(e.target)) {
         modelMenu.classList.remove('show');
         modelBtn.classList.remove('open');
@@ -507,7 +578,96 @@
         sendMessage();
       }
     });
-    // --- Fin Event Listeners ---
+
+    // --- CHAT HISTORY LOGIC ---
+    async function fetchChatSessions() {
+      try {
+        const response = await fetch('/get_chat_sessions');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch chat sessions: ${response.status}`);
+        }
+        const sessions = await response.json();
+        renderChatSessions(sessions);
+      } catch (error) {
+        console.error(error);
+        chatSessionsList.innerHTML = '<div class="chat-sessions-list-empty">Could not load history.</div>';
+      }
+    }
+
+    function renderChatSessions(sessions) {
+      chatSessionsList.innerHTML = ''; // Limpiar lista actual
+      if (!sessions || sessions.length === 0) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'chat-sessions-list-empty';
+        placeholder.textContent = 'No chat history yet.';
+        chatSessionsList.appendChild(placeholder);
+        return;
+      }
+
+      sessions.forEach(session => {
+        const sessionItem = document.createElement('div');
+        sessionItem.className = 'chat-session-item';
+        sessionItem.textContent = session.display_name || `Chat ${session.session_id.substring(0, 8)}`;
+        sessionItem.dataset.sessionId = session.session_id;
+        if (session.session_id === currentSessionId) {
+          sessionItem.classList.add('active');
+        }
+        sessionItem.addEventListener('click', () => {
+          loadChatSession(session.session_id);
+        });
+        chatSessionsList.appendChild(sessionItem);
+      });
+      updateActiveSessionInList(currentSessionId);
+    }
+    
+    function updateActiveSessionInList(activeSessionId) {
+        document.querySelectorAll('.chat-session-item').forEach(item => {
+            if (item.dataset.sessionId === activeSessionId) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+
+    async function loadChatSession(sessionId) {
+      if (currentSessionId === sessionId && chatBox.children.length > 0) {
+        // Si ya está cargada y no está vacía, no hacer nada o solo asegurar el 'active'
+        updateActiveSessionInList(sessionId);
+        console.log(`Session ${sessionId} already loaded.`);
+        return;
+      }
+      console.log("Loading chat session:", sessionId);
+      setChatInputEnabled(false);
+      chatBox.innerHTML = '<div style="text-align:center; color:#888; margin-top:20px;">Loading chat...</div>'; // Indicador de carga
+      
+      try {
+        const response = await fetch(`/get_messages_for_session/${sessionId}`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch messages for session ${sessionId}: ${response.status}`);
+        }
+        const messages = await response.json();
+        currentSessionId = sessionId; // Actualizar el ID de sesión actual
+        chatBox.innerHTML = ''; // Limpiar indicador de carga
+        
+        messages.forEach(msg => {
+            const formattedTimestamp = msg.timestamp ? new Date(msg.timestamp + "Z").toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : null;
+            // Para mensajes del asistente, las fuentes no se guardan directamente con el mensaje en la DB de historial
+            // por lo que no se pueden mostrar aquí al cargar el historial, a menos que modifiques el backend.
+            createMessageBubble(msg.content, msg.role, false, formattedTimestamp, null);
+        });
+        updateActiveSessionInList(sessionId);
+
+      } catch (error) {
+        console.error(error);
+        chatBox.innerHTML = ''; // Limpiar si hay error
+        displayError(`Could not load session: ${error.message}`);
+      } finally {
+        setChatInputEnabled(true);
+        scrollToBottom();
+        userInput.focus();
+      }
+    }
 
 
     // --- Core Logic: sendMessage (MODIFICADO PARA STREAMING) ---
@@ -518,34 +678,33 @@
         return;
       }
 
-      const userTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      const userMessageBubble = createMessageBubble(messageText, 'user');
-      addTimestamp(userMessageBubble, userTimestamp);
+      const isFirstMessageInNewSession = !document.querySelector(`.chat-session-item[data-session-id="${currentSessionId}"]`);
       
-      userInput.value = ''; // Limpiar input
-      userInput.style.height = 'auto'; // Resetear altura del textarea
+      const userTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      createMessageBubble(messageText, 'user', false, userTimestamp); // Timestamp para el usuario
+      
+      userInput.value = ''; 
+      userInput.style.height = 'auto';
 
-      // Crear burbuja del bot para "Thinking..." que se actualizará con el stream
       const botThinkingBubble = createMessageBubble('Thinking…', 'bot', true);
       setChatInputEnabled(false);
       const requestStartTime = Date.now();
       
       let accumulatedBotText = "";
       let sourcesData = [];
-      let thoughtProcessData = null;
 
       try {
-        const response = await fetch('/chat', { // La ruta del backend para el chat
+        const response = await fetch('/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 message: messageText,
                 model: selectedModel,
-                session_id: currentSessionId // Enviar el session_id actual
+                session_id: currentSessionId 
             })
         });
 
-        if (!response.ok) { // Error HTTP antes de que el stream comience (ej: 400, 500)
+        if (!response.ok) { 
             const errorData = await response.json().catch(() => ({ error: `Server error: ${response.status}` }));
             throw new Error(errorData.error || `Server error: ${response.status}`);
         }
@@ -562,10 +721,9 @@
             const { value, done } = await reader.read();
             if (done) {
                 console.log("Stream finished.");
-                break; // Salir del bucle while
+                break; 
             }
 
-            // Decodificar el chunk (puede contener múltiples eventos SSE)
             const chunkString = decoder.decode(value, { stream: true });
             const eventLines = chunkString.split('\n\n');
 
@@ -573,54 +731,48 @@
                 if (line.startsWith('data: ')) {
                     try {
                         const eventDataString = line.substring(5).trim();
-                        if (!eventDataString) return; // Skip empty data lines
+                        if (!eventDataString) return; 
 
                         const jsonData = JSON.parse(eventDataString);
-                        // console.log("SSE Event:", jsonData);
 
                         if (jsonData.type === 'content') {
                             if (!firstChunkReceived) {
-                                // Limpiar "Thinking..." y quitar la clase 'thinking'
                                 botThinkingBubble.innerHTML = ''; 
                                 botThinkingBubble.classList.remove('thinking');
                                 firstChunkReceived = true;
                             }
                             accumulatedBotText += jsonData.text;
-                            // Actualizar el contenido de la burbuja del bot
-                            // Es importante escapar HTML aquí si jsonData.text no viene escapado
                             botThinkingBubble.innerHTML = escapeHtml(accumulatedBotText).replace(/\n/g, '<br>');
                             scrollToBottom();
 
                         } else if (jsonData.type === 'final') {
                             sourcesData = jsonData.sources || [];
-                            thoughtProcessData = jsonData.thought_process || null;
-                            // El timestamp y las fuentes se añadirán después del bucle
-                            if (thoughtProcessData) {
-                                console.log("Received thought process:", thoughtProcessData);
-                                // Guardar para posible visualización futura
-                                botThinkingBubble.dataset.thoughtProcess = thoughtProcessData;
-                            }
+                            // No hay thought_process en el backend actualmente para mostrar
                         } else if (jsonData.type === 'error') {
                             console.error("Error message from stream:", jsonData.message);
                             displayError(jsonData.message);
-                            // Considerar si se debe detener el procesamiento aquí
                         }
                     } catch (e) {
                         console.error("Error parsing SSE event JSON:", e, "Raw line:", line);
                     }
                 }
             });
-        } // Fin del while(true)
+        } 
 
-        // Una vez que el stream ha terminado (done = true)
         const durationSeconds = ((Date.now() - requestStartTime) / 1000).toFixed(1);
         const botTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         addTimestamp(botThinkingBubble, `${botTimestamp} (${durationSeconds}s)`);
         addSources(botThinkingBubble, sourcesData);
 
+        if (isFirstMessageInNewSession) { // Si fue el primer mensaje de una nueva sesión
+            await fetchChatSessions(); // Recargar la lista de sesiones para incluir la nueva
+        } else {
+            updateActiveSessionInList(currentSessionId); // Solo asegurar que el actual sigue activo
+        }
+
+
       } catch (error) {
           console.error('Chat request/stream failed:', error);
-          // Eliminar la burbuja de "Thinking..." si hubo un error catastrófico
           if (botThinkingBubble && botThinkingBubble.parentElement) {
               botThinkingBubble.closest('.message-container')?.remove();
           }
@@ -632,58 +784,65 @@
       }
     }
 
-    // --- handleModelChange (Notificación al backend del cambio de modelo) ---
+    // --- handleModelChange ---
     function handleModelChange(modelKey) {
-      setChatInputEnabled(false); // Deshabilitar input mientras se cambia
+      setChatInputEnabled(false); 
       fetch('/switch_model', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ model: modelKey, session_id: currentSessionId })
       })
       .then(response => {
-        if (!response.ok) return response.json().then(err => { throw err; }); // Lanza si hay error
+        if (!response.ok) return response.json().then(err => { throw err; });
         return response.json();
       })
       .then(data => {
         if (data.status === 'success') {
-          console.log(`Successfully switched to model: ${data.loaded_model}`);
-          // El texto del botón ya se actualizó, no es necesario hacerlo aquí
+          // La key devuelta por el servidor es 'loaded_model_key'
+          console.log(`Successfully switched to model: ${data.loaded_model_key}`);
+          selectedModel = data.loaded_model_key; // Asegurarse de que la variable local se actualiza
+          
+          // Actualizar UI del botón de modelo
+          const activeModelItem = modelMenu.querySelector(`.model-item[data-value="${selectedModel}"]`);
+          if (activeModelItem) {
+              modelBtn.innerHTML = `${escapeHtml(activeModelItem.textContent)} <i class="arrow"></i>`;
+              modelMenu.querySelector('.model-item.selected')?.classList.remove('selected');
+              activeModelItem.classList.add('selected');
+          }
         } else {
           throw new Error(data.message || 'Unknown issue switching model.');
         }
       })
-      .catch(errorData => { // Captura errores de la red o del .then() anterior
+      .catch(errorData => { 
         console.error('Model switch error:', errorData);
         const errorMessage = errorData.message || 'Failed to switch model.';
         displayError(errorMessage);
         
-        // Revertir la selección en el UI si el backend indica un modelo diferente o falla
-        const loadedModelFromServer = errorData.loaded_model || selectedModel; // Usa el actual si no hay info
-        if (loadedModelFromServer !== modelKey) {
-            const previousItem = modelMenu.querySelector(`.model-item[data-value="${loadedModelFromServer}"]`);
+        const loadedModelFromServer = errorData.loaded_model_key || "{{ default_llm_key }}"; 
+        if (loadedModelFromServer !== selectedModel) { // Si el servidor revirtió o falló a un modelo diferente
+            selectedModel = loadedModelFromServer; // Revertir la variable JS
+            const previousItem = modelMenu.querySelector(`.model-item[data-value="${selectedModel}"]`);
             if (previousItem) {
                 modelMenu.querySelector('.model-item.selected')?.classList.remove('selected');
                 previousItem.classList.add('selected');
-                selectedModel = loadedModelFromServer; // Revertir la variable JS
                 modelBtn.innerHTML = `${escapeHtml(previousItem.textContent)} <i class="arrow"></i>`;
             }
         }
       })
       .finally(() => {
-        setChatInputEnabled(true); // Rehabilitar input
+        setChatInputEnabled(true); 
         userInput.focus();
       });
     }
 
-    // --- handleFiles (Lógica para subir archivos) ---
-    // (Tu código existente para handleFiles es bueno, lo mantendré)
+    // --- handleFiles ---
     function handleFiles(files) {
       if (!files.length) return;
       setChatInputEnabled(false);
-      fileList.innerHTML = ''; // Limpiar lista de archivos anterior
+      fileList.innerHTML = ''; 
       const formData = new FormData();
       let hasValidFiles = false;
-      const fileStatusMap = new Map(); // Para actualizar el estado de cada archivo
+      const fileStatusMap = new Map(); 
 
       Array.from(files).forEach(file => {
         const fileName = file.name;
@@ -696,18 +855,18 @@
         
         const statusSpan = document.createElement('span');
         statusSpan.className = 'file-status';
-        statusSpan.innerHTML = '<span class="status-icon">⏳</span> Pending'; // Icono de carga
+        statusSpan.innerHTML = '<span class="status-icon">⏳</span> Pending'; 
         
         listItem.append(nameSpan, statusSpan);
         fileList.appendChild(listItem);
-        fileStatusMap.set(fileName, listItem); // Guardar referencia al LI
+        fileStatusMap.set(fileName, listItem); 
 
-        if (/\.(pdf|txt|docx|md)$/i.test(fileName)) { // Validar extensión
+        if (/\.(pdf|txt|docx|md)$/i.test(fileName)) { 
           formData.append('files[]', file);
           hasValidFiles = true;
         } else {
           statusSpan.innerHTML = '<span class="status-icon">❌</span> Invalid Type';
-          listItem.style.color = '#dc3545'; // Rojo para error
+          listItem.style.color = '#dc3545'; 
         }
       });
 
@@ -717,11 +876,10 @@
         return;
       }
 
-      dropZone.innerHTML = `Uploading ${formData.getAll('files[]').length} valid file(s)...`; // Feedback visual
+      dropZone.innerHTML = `Uploading ${formData.getAll('files[]').length} valid file(s)...`; 
 
       fetch('/upload', { method: 'POST', body: formData })
       .then(response => {
-        // Permitir 207 Multi-Status como "OK" para procesar resultados parciales
         if (!response.ok && response.status !== 207) { 
             return response.json().then(err => { throw new Error(err.error || `Upload failed: ${response.status}`); });
         }
@@ -729,6 +887,7 @@
       })
       .then(data => {
         let overallErrors = false;
+        let successfulUploads = 0;
         if (data.results && Array.isArray(data.results)) {
           data.results.forEach(result => {
             const listItem = fileStatusMap.get(result.original_filename);
@@ -736,7 +895,8 @@
               const statusSpan = listItem.querySelector('.file-status');
               if (result.status === 'success') {
                 statusSpan.innerHTML = '<span class="status-icon">📄</span> Ready';
-                listItem.style.color = ''; // Reset color
+                listItem.style.color = ''; 
+                successfulUploads++;
               } else {
                 statusSpan.innerHTML = `<span class="status-icon">❌</span> Failed`;
                 listItem.style.color = '#dc3545';
@@ -744,7 +904,11 @@
               }
             }
           });
-        } else if (data.error) { // Error general del endpoint de subida
+          if (successfulUploads > 0) {
+             // Opcional: Podrías añadir un mensaje de éxito general aquí
+             // displayError(`${successfulUploads} file(s) processed successfully.`); // (usar una variante no-roja para esto)
+          }
+        } else if (data.error) { 
             displayError(data.error);
             overallErrors = true;
         } else {
@@ -754,13 +918,18 @@
 
         if (overallErrors) {
             const errorCount = data.results ? data.results.filter(r => r.status === 'error').length : (data.error ? 1 : 0);
-            if (errorCount > 0) displayError(`${errorCount} file(s) failed to process. Check console for details.`);
+            if (errorCount > 0 && successfulUploads === 0) { // Solo mostrar error rojo si todos fallaron o hubo error general
+                 displayError(`${errorCount} file(s) failed to process. Check console for details.`);
+            } else if (errorCount > 0 && successfulUploads > 0) {
+                // Si algunos funcionaron y otros no, podrías tener un mensaje mixto
+                // Por ahora, el estado individual de los archivos ya lo indica.
+                console.warn(`${errorCount} file(s) failed to process.`);
+            }
         }
       })
       .catch(error => {
         console.error('Upload Fetch Error:', error);
         displayError(error.message || 'Network error during upload.');
-        // Marcar todos los archivos pendientes como error de red si falla el fetch
         fileStatusMap.forEach(listItem => {
           const statusSpan = listItem.querySelector('.file-status');
           if (statusSpan && statusSpan.textContent.includes('Pending')) {
@@ -770,24 +939,28 @@
         });
       })
       .finally(() => {
-        dropZone.innerHTML = 'Drag & drop Document(s)<br>(PDF, DOCX, TXT, MD) or click'; // Restaurar texto
+        dropZone.innerHTML = 'Drag & drop Document(s)<br>(PDF, DOCX, TXT, MD) or click'; 
         setChatInputEnabled(true);
         userInput.focus();
-        fileInput.value = ''; // Limpiar el input de archivo para permitir subir el mismo de nuevo
+        fileInput.value = ''; 
       });
     }
 
     // --- Inicialización al cargar la página ---
     document.addEventListener('DOMContentLoaded', () => {
       // Seleccionar el modelo por defecto en el UI
-      const defaultModelItem = modelMenu.querySelector(`.model-item[data-value="${selectedModel}"]`);
+      const defaultModelValue = "{{ default_llm_key }}";
+      const defaultModelItem = modelMenu.querySelector(`.model-item[data-value="${defaultModelValue}"]`);
+      
       if (defaultModelItem) {
+        modelMenu.querySelector('.model-item.selected')?.classList.remove('selected');
         defaultModelItem.classList.add('selected');
         modelBtn.innerHTML = `${escapeHtml(defaultModelItem.textContent)} <i class="arrow"></i>`;
+        selectedModel = defaultModelValue;
       } else {
-          // Si el 'selectedModel' por defecto no existe en el HTML, selecciona el primero no deshabilitado
           const firstAvailableModel = modelMenu.querySelector('.model-item:not(.disabled)');
           if(firstAvailableModel){
+              modelMenu.querySelector('.model-item.selected')?.classList.remove('selected');
               firstAvailableModel.classList.add('selected');
               selectedModel = firstAvailableModel.dataset.value;
               modelBtn.innerHTML = `${escapeHtml(firstAvailableModel.textContent)} <i class="arrow"></i>`;
@@ -795,7 +968,8 @@
       }
       setChatInputEnabled(true);
       userInput.focus();
-      console.log("Chat UI Initialized. Session ID:", currentSessionId);
+      console.log("Chat UI Initialized. Initial Session ID:", currentSessionId);
+      fetchChatSessions(); // Cargar el historial de chats
     });
   </script>
 </body>
